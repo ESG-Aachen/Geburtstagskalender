@@ -4,6 +4,8 @@ import Birthday from "./birtday";
 import { AnimatePresence, motion } from "framer-motion";
 import fragenderHahn from "@/assets/fragender-hahn.jpg";
 import Image from "next/image";
+import { isToday } from "date-fns";
+import Confetti from "./confetti";
 
 export default function SearchableBirthdaysList({ users, searchQuery }: {
   users: User[],
@@ -16,8 +18,13 @@ export default function SearchableBirthdaysList({ users, searchQuery }: {
   let filteredIds = search.filter(users.map(user => `${user.properties.displayName}¦${user.properties.roomNumber}`), searchQuery)
   let filteredUsers = searchQuery ? filteredIds?.map(id => users[id]) ?? [] : users;
 
+  let someoneHasBirthday = filteredUsers.some(user => {
+    return isToday(user.properties.birthday);
+  });
+
   return (
     <div>
+      {someoneHasBirthday && (<Confetti />)}
       {filteredUsers.length === 0 && (
         <>
           <h4 className="font-bold text-lg mb-2">Leider konnten wir die gesuchte Bewohner*in nicht finden.</h4>

@@ -1,26 +1,11 @@
 import { differenceInCalendarDays, format, isToday, isTomorrow } from "date-fns";
 import { User } from "../app/page";
 import { de } from "date-fns/locale";
-import { useWindowSize } from "react-use";
-import dynamic from "next/dynamic";
-
-const Confetti = dynamic(() => import("react-confetti"), { ssr: false });
 
 export default function Birthday({ user }: { user: User}) {
-  const { width } = useWindowSize();
 
   return (
     <div className="rounded-md bg-[#F4D7D9] p-4">
-      {isToday(user.properties.birthday) && (
-          <Confetti 
-            className="w-full"
-            width={width}
-            height={document.body.scrollHeight}
-            numberOfPieces={50}
-            tweenDuration={75000}
-            opacity={0.4}
-          />
-      )}
       <div className="flex items-center justify-between space-y-3">
         <div className="font-medium text-[#030202]">
           {user.properties.displayName}
